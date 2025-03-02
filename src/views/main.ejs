@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+   
+    <link rel="stylesheet" href="/m.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 500px; 
+            width: 100%;
+        }
+        
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="left-bar">
+        <h3></h3>
+        <ul>
+            <li>op 1</li>
+            <li>op 2</li>
+            <li>op 3</li>
+        </ul>
+    </div>
+
+    <div class="middle-space">
+        <div id="map" aria-label="Map showing your current location"></div>
+        <div id="status" role="status"></div>
+        <h1>Welcome, <%= user.name %>!</h1>
+        <p>Your user ID is: <%= user.id %></p>
+        <p>Server is working with your data.</p>
+    </div>
+    <div class="right-bar">
+        <div class="dialogue-box">
+            <ul>
+                <% if (locals.tasks && tasks.length > 0) { %>
+                    <% tasks.forEach(function(task) { %>
+                        <li style="color: black;"><%= task.title %></li> 
+                    <% }); %>
+                <% } else { %>
+                    <li style="color: black;"><%= locals.message || 'No tasks found' %></li> 
+                <% } %>
+            </ul>
+        
+            <button id="add-task-button">+</button>
+        
+           
+            <form id="task-form" action="/main/tasksadd" method="POST" style="display: none;">
+                <h2>Add a New Task</h2>
+                <input type="hidden" name="userId" value="<%= locals.userId %>">
+        
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+        
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+        
+                <label for="completionDate">Completion Date:</label>
+                <input type="date" id="completionDate" name="completionDate" required>
+        
+                <label for="completionTime">Completion Time:</label>
+                <input type="time" id="completionTime" name="completionTime">
+        
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location">
+        
+                <button type="submit">Add Task</button>
+            </form>
+        
+            <script>
+                // Toggle form visibility
+                const addTaskButton = document.getElementById('add-task-button');
+                const taskForm = document.getElementById('task-form');
+                const form = document.getElementById('task-form');
+                const messageDiv = document.createElement('div');
+                document.body.appendChild(messageDiv);
+        
+                addTaskButton.addEventListener('click', () => {
+                    taskForm.style.display = taskForm.style.display === 'none' ? 'block' : 'none';
+                });
+        
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+        
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData.entries());
+        
+                    fetch('/main/tasksadd', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to process request');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                    messageDiv.textContent = result.message;
+                    form.reset();
+                    taskForm.style.display = 'none';
+
+                    // Update the task list dynamically
+                    // const newTask = document.createElement('li');
+                    // newTask.textContent = result.task.title;
+                    // taskList.appendChild(newTask);
+                    location.reload();
+                    })
+
+                });
+            </script>
+        </div>
+        
+    </div>
+
+    <div class="footer">
+        <!-- Footer content -->
+
+    </div>
+
+
+</body> 
+</html>

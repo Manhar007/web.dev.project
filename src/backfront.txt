@@ -1,0 +1,1 @@
+change res.render in main.js

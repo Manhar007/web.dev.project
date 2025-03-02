@@ -1,0 +1,124 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    display: grid;
+    grid-template-rows: auto auto 50px;
+    grid-template-columns: 300px auto 200px;
+    grid-template-areas: 
+        "left-bar middle-space right-bar"
+        "left-bar middle-space right-bar"
+        ". footer footer";
+    min-height: 100vh;
+}
+
+
+#map {
+    height: 500px;
+    width: 100%;
+}
+
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+
+.footer {
+    grid-area: footer;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+}
+
+
+#calendar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+.date-container {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    margin: 0 10px;
+}
+.date-cell {
+    text-align: center;
+    width: 40px;
+}
+.date-cell .day {
+    font-size: 0.8em;
+    color: #666;
+}
+.date-cell .date {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.date-cell.today .date {
+    background-color: #ff5583;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto;
+}
+
+
+.nav-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.left-bar {
+    color: grey;
+    grid-area: left-bar;
+    background-color: cyan;
+    border: 5px red;
+    grid-row: 1 / 4; 
+}
+
+.middle-space {
+    grid-area: middle-space;
+    background-color: lightpink;
+    padding: 10px;
+}
+
+.right-bar {
+    grid-area: right-bar;
+    background-color: #e9e9e9;
+    border-left: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.dialogue-box {
+    flex-grow: 1;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow-y: auto;
+}

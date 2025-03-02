@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <link rel="stylesheet" href="m.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 500px; /* Adjust height as needed */
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left-bar">
+        <h3></h3>
+        <ul>
+            <li>op 1</li>
+            <li>op 2</li>
+            <li>op 3</li>
+        </ul>
+    </div>
+
+    <div class="middle-space">
+        <div id="map"></div>
+        <script>
+               // Initialize the map centered at the middle of the defined area
+            var map = L.map('map').setView([29.867986, 77.893724], 16);
+    
+           // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+            // Define custom icon for the user marker
+        var userIcon = L.icon({
+            iconUrl: 'https://example.com/user-icon.png',  // Replace with your custom icon URL
+            iconSize: [32, 32],  // Adjust size as needed
+            iconAnchor: [16, 32],  // Position of the icon relative to its coordinates
+            popupAnchor: [0, -32]  // Adjust if you want the popup to appear differently
+        });
+    
+        // Add the user marker at a specific location (example coordinates)
+        var userMarker = L.marker([29.866330, 77.895901], { icon: userIcon }).addTo(map);
+
+    
+            // Add a popup to the marker (optional)
+            userMarker.bindPopup("<b>User</b>").openPopup();
+                  // Define the coordinates for the rectangular area
+             const bounds = [
+                [29.860955, 77.886585],  // South-West corner
+                [29.873348, 77.901510]   // North-East corner
+            ];
+        // Add a rectangle to represent the restricted area
+        L.rectangle(bounds, { color: 'blue', weight: 1 }).addTo(map);
+
+        // Fit the map view to the bounds of the rectangle
+        map.fitBounds(bounds);
+
+        // Restrict the map to the defined bounds so the user can't pan out of it
+        map.setMaxBounds(bounds);
+
+        // Optional: restrict zooming to a particular zoom level range
+        map.options.minZoom = 15;  // Minimum zoom level
+        map.options.maxZoom = 18;  // Maximum zoom level
+
+        console.log("Map with restricted area and user icon displayed!");
+        </script>
+    </div>
+    <div class="right-bar">
+        <div class="dialogue-box">
+            <!-- Dialogue content -->
+            <p>This is the dialogue box.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <!-- Footer content -->
+
+    </div>
+</body> 
+
+
+</html>
